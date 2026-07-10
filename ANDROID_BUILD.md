@@ -1,68 +1,60 @@
-# 📱 Zoya AI - Android APK & AAB Build Guide 🚀
+# 📱 Zoya AI - APK & AAB Banane Ka Sabse Aasan Tarika (Cloud Build + Local Build) 🚀
 
-Aapki application me Android package setup pehle se done hai. Is guide ki help se aap apne local computer par **APK (Installable App)** aur **AAB (Play Store Release)** bana sakte hain easily.
+Aapki request par humne ek **100% Automated Cloud Build** system set kar diya hai! Ab aapko apne computer par **Android Studio** ya **Java** install karne ki koi zaroorat nahi padegi agar aapke paas low-end PC hai.
 
----
-
-## 🛠️ Step 1: Pre-requisites (Samaan Jo Chahiye)
-Apne computer par ye tools install rakhein:
-1. **Node.js** (LTS version)
-2. **Android Studio** (Koala or latest version)
-3. **Java JDK 17** (Android Studio setup me built-in mil jata hai)
+Niche do (2) simple tarike diye gaye hain. Hum **Method 1** recommend karte hain kyunki ye sabse aasan hai!
 
 ---
 
-## 💻 Step 2: Dependencies Install Karein
-Apne project folder ko terminal/cmd me kholiye aur run karein:
-```bash
-npm install
-```
+## 🔥 Method 1: GitHub Cloud Build (Sabse Aasan, No Android Studio Needed!) ☁️
+Is tarike me, GitHub ka high-speed server aapke liye automatically `.apk` aur `.aab` file generate kar ke dega. Aapko bas file download karni hogi!
+
+### Step-by-Step Kaise Karein:
+1. **Zip Download Karein:** AI Studio me top-right me settings menu se project ko **"Export to ZIP"** kar ke download karein aur extract kar lein.
+2. **GitHub Par Upload Karein:**
+   - [github.com](https://github.com) par jayein aur apna free account banayein (agar pehle se nahi hai).
+   - Ek naya repository banayein (e.g., `zoya-ai-app`).
+   - Apne computer ke un-zipped project files ko GitHub Repository par upload kar dein. *(Aap directly drag-and-drop upload bhi kar sakte hain GitHub website par!)*
+3. **Magic Dekhein!**
+   - Jaise hi aap code upload karenge, GitHub ke **"Actions"** tab me automatic build chalne lagegi.
+   - Hamein pehle se hi `.github/workflows/build-apk.yml` file create kar di hai, isliye aapko kuch configure nahi karna padega!
+4. **APK Download Karein:**
+   - 3-5 minutes wait karein build complete hone ka.
+   - GitHub Actions me build job par click karein.
+   - Niche **Artifacts** section me aapko **`ZoyaAI-APK`** (phone me install karne ke liye) aur **`ZoyaAI-AAB`** (Play Store par dalne ke liye) download link mil jayega! 🥳
 
 ---
 
-## 🚀 Step 3: Web Code Build & Capacitor Sync (Sabse Important!)
-Hamein React web application ko build karke static code Android project me copy karna hai. Iske liye humne custom script banayi hai:
+## 💻 Method 2: Android Studio Se Build Karein (Apne Computer Par) 🛠️
+Agar aap apne computer par banana chahte hain:
 
-Sirf ye single command run karein:
-```bash
-npm run build:android
-```
-*(Ye command `npm run build` karegi aur automatic saara code `dist` se uthakar `android/app/src/main/assets/public/` folder me copy/sync kar degi!)*
+### Pre-requisites (Chahiye):
+1. **Node.js** (LTS)
+2. **Android Studio**
+3. **Java JDK 17**
 
----
-
-## 🎨 Step 4: Android Studio Me Project Open Karein
-Project ko Android Studio me open karne ke liye:
-```bash
-npm run cap:open
-```
-*(Ya fir aap manual **Android Studio** open karke **"Open Project"** select karein aur apne main project ke andar waale `android/` folder ko choose karein.)*
-
----
-
-## 📦 Step 5: APK aur AAB Generate Karein (Android Studio Ke Andar)
-
-### 1️⃣ APK Kaise Banayein (Direct Phone Me Install Karne Ke Liye):
-1. Android Studio me project fully load hone ka wait karein (niche progress bar complete hone dein).
-2. Top Menu bar me jayein: **Build** ➜ **Build Bundle(s) / APK(s)** ➜ **Build APK(s)**.
-3. Gradle build complete hone par, right corner me **"APK(s) generated successfully"** ka pop-up aayega.
-4. **"Locate"** par click karein. Aapko aapki installable **`app-debug.apk`** mil jayegi! Isko direct phone me bhejkar install kar sakte hain.
-
-### 2️⃣ AAB (Android App Bundle) Kaise Banayein (Google Play Store Par Upload Karne Ke Liye):
-1. Top Menu bar me jayein: **Build** ➜ **Generate Signed Bundle / APK...**
-2. **Android App Bundle** select karein aur **Next** karein.
-3. **Keystore details** banayein ya select karein (Sign karne ke liye key).
-4. Build variant me **`release`** select karein.
-5. **Finish** par click karein. Aapki **`app-release.aab`** taiyaar ho jayegi jo Google Play Console par upload ho sakegi!
+### Step-by-Step:
+1. **Project Open Karein:** Terminal/CMD me project folder kholiye aur dependencies install karein:
+   ```bash
+   npm install
+   ```
+2. **React Web Build & Copy:** Ye command run karein jo application ko build karke Android assets folder me daal degi:
+   ```bash
+   npm run build:android
+   ```
+3. **Android Studio Open Karein:**
+   ```bash
+   npm run cap:open
+   ```
+   *(Ya manual Android Studio me ja kar project ka `android/` folder open karein).*
+4. **APK Compile Karein:**
+   - Android Studio fully load hone ka wait karein.
+   - Top menu me jayein: **Build** ➜ **Build Bundle(s) / APK(s)** ➜ **Build APK(s)**.
+   - Success notification aane par **"Locate"** par click karein. Aapko aapki **`app-debug.apk`** mil jayegi!
 
 ---
 
-## ⚠️ Important Tips & Troubleshooting
+## ⚠️ Play Store Launch (AAB) Ke Liye Tip:
+Play Store par upload karne ke liye hamesha **AAB (Android App Bundle)** upload kijiye jo Method 1 me automatically ban jati hai release variant ke sath!
 
-- **Internet Error inside Android Studio:** Pehli baar build me Gradle libraries download karta hai, isliye active internet connection zaroori hai.
-- **Gradle Sync Failed:** Agar Android Gradle plugin error de, to project ko clean karein: **Build** ➜ **Clean Project** aur fir **File** ➜ **Sync Project with Gradle Files** par click karein.
-- **Port Warning:** Dev server 3000 port use karta hai. Physical app build release configuration use karegi, jisme local server ki zaroorat nahi padti aur app offline fast chalegi!
-
----
-
-**✨ Zoya Studio (Pro) aur Image Generation ke sath ab aapki App ready hai build hone ke liye! Best of luck!**
+✨ **Zoya AI Voice and Image Generator is fully ready for APK build!**
